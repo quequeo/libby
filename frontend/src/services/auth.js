@@ -2,17 +2,14 @@ import api from './api';
 
 export const login = async (credentials) => {
   const response = await api.post('/login', credentials);
-  localStorage.setItem('session_id', response.data.session_id);
-  return response.data;
+  return response.data.user
 };
 
 export const register = async (userData) => {
   const response = await api.post('/users', { user: userData });
-  localStorage.setItem('session_id', response.data.session_id);
-  return response.data;
+  return response.data.user
 };
 
 export const logout = async () => {
   await api.delete('/logout');
-  localStorage.removeItem('session_id');
 };
