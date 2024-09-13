@@ -71,12 +71,16 @@ namespace :db do
 
         due_date = Faker::Date.between(from: 2.months.ago, to: 1.day.ago)
 
-        Borrowing.create!(
-          user: user,
-          book: book,
-          due_date: due_date,
-          returned: false
-        )
+        begin
+          Borrowing.create(
+            user: user,
+            book: book,
+            due_date: due_date,
+            returned: false
+          )
+        rescue
+          next
+        end
       end
     end
 

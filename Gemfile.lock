@@ -104,6 +104,8 @@ GEM
       reline (>= 0.3.8)
     diff-lcs (1.5.1)
     docile (1.4.1)
+    dockerfile-rails (1.6.17)
+      rails (>= 3.0.0)
     drb (2.2.1)
     erubi (1.13.0)
     factory_bot (6.5.0)
@@ -303,6 +305,7 @@ DEPENDENCIES
   cancancan
   database_cleaner
   debug
+  dockerfile-rails (>= 1.6)
   factory_bot_rails
   faker
   kaminari

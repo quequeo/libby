@@ -1,36 +1,74 @@
-Libby
-Libby is a library management system built with Ruby on Rails and React.
+# 📚 Libby
 
+Libby is a modern library management system built with Ruby on Rails and React, designed to streamline library operations and enhance user experience.
 
-Setup
-Backend (Rails)
+## 🚀 Features
 
-Navigate to the project directory:
-cd libby
+- 📖 Book catalog management
+- 👥 User account system
+- 🔍 Advanced search functionality
 
-Install dependencies:
-bundle install
+## 🛠️ Tech Stack
 
-Set up the database:
-rails db:create db:migrate db:seed
+- **Backend**: Ruby on Rails
+- **Frontend**: React
+- **Database**: PostgreSQL
 
-Start the Rails server:
-rails s
+## 🏗️ Setup
 
+### Backend (Rails)
 
-Frontend (React)
+1. Navigate to the project directory:
+   ```sh
+   cd libby
+   ```
 
-Navigate to the frontend directory:
-cd frontend
+2. Install dependencies:
+   ```sh
+   bundle install
+   ```
 
-Install dependencies:
-npm install
+3. Set up the database:
+   ```sh
+   rails db:create db:migrate db:seed
+   ```
 
-Start the development server:
-npm run dev
+4. Start the Rails server:
+   ```sh
+   rails s
+   ```
 
+### Frontend (React)
 
-Visit http://localhost:5173 to see the application in action.
-Testing
+1. Navigate to the frontend directory:
+   ```sh
+   cd frontend
+   ```
+
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+
+3. Start the development server:
+   ```sh
+   npm run dev
+   ```
+
+Visit `http://localhost:5173` to see the application in action.
+
+## 🧪 Testing
+
 Run the test suite with:
+```sh
 rspec
+```
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+Project Link: [https://github.com/yourusername/libby](https://github.com/quequeo/libby)
+
+## 📄 License
+
+This project is licensed under the MIT License
