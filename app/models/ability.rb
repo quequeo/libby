@@ -12,7 +12,7 @@ class Ability
     if user.member?
       can :read, Book
       can :create, Borrowing
-      can [ :read, :update ], Borrowing, user_id: user.id
+      can [:read, :update], Borrowing, user_id: user.id
       can :search, Book
     end
   end

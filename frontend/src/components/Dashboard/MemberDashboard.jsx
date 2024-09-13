@@ -6,18 +6,14 @@ import BorrowedBookList from '../Books/BorrowedBookList';
 function MemberDashboard() {
   const [dashboardData, setDashboardData] = useState(null);
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
+  useEffect(() => { fetchDashboardData()}, [])
 
   const fetchDashboardData = async () => {
     try {
       const data = await getDashboard();
       setDashboardData(data);
-    } catch (error) {
-      console.error('Failed to fetch dashboard data:', error);
-    }
-  };
+    } catch (error) { console.error('Failed to fetch dashboard data:', error) }
+  }
 
   if (!dashboardData) return (
     <Container>

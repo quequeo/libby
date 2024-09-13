@@ -1,17 +1,10 @@
-class Api::V1::BooksController < Api::BaseController
+class Api::V1::BooksController < Api::ApplicationController
   load_and_authorize_resource
 
   def index
-    @books = if current_user.librarian?
-               Book.order(updated_at: :desc).page(params[:page]).per(params[:per_page])
-    else
-               current_user.not_borrowed_books.order(updated_at: :desc).page(params[:page]).per(params[:per_page])
-    end
-
-    render json: {
-      books: books_serializer,
-      meta: pagination_meta(@books)
-    }
+    @books = current_user.librarian? ? Book.all : current_user.not_borrowed_books
+    @books = @books.order(updated_at: :desc).paginate(params[:page], params[:per_page])
+    render json: { books: books_serializer, meta: pagination_meta(@books) }
   end
 
   def show
@@ -35,18 +28,19 @@ class Api::V1::BooksController < Api::BaseController
   end
 
   def destroy
-    @book.destroy
-    head :no_content
+    if @book.borrowings.where(returned: false).exists?
+      render json: { error: 'Cannot delete a book that is currently borrowed' }, status: :forbidden
+    else
+      @book.borrowings.destroy_all
+      @book.destroy
+      head :no_content
+    end
   end
 
   def search
-    @books = BookSearchService.search(params[:query], page: params[:page], per_page: params[:per_page])
+    @books = BookFinder.search(params[:query], page: params[:page], per_page: params[:per_page])
     @books = @books.where.not(id: current_user.borrowings.active.pluck(:book_id))
-
-    render json: {
-      books: books_serializer,
-      meta: pagination_meta(@books)
-    }
+    render json: { books: books_serializer, meta: pagination_meta(@books) }
   end
 
   private

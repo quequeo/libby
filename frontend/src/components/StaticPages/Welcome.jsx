@@ -9,12 +9,7 @@ const Welcome = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/dashboard');
-    }
-  }, [isAuthenticated]);
-
+  useEffect(() => { if (isAuthenticated) { navigate('/dashboard') }}, [isAuthenticated]);
 
   return (
     <Box sx={boxStyles}>

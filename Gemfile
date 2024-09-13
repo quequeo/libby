@@ -12,11 +12,15 @@ gem "byebug", platforms: %i[ mri mingw x64_mingw ]
 gem "bcrypt", "~> 3.1.7"
 gem "cancancan"
 
+group :development do
+  gem "dockerfile-rails", ">= 1.6"
+  gem "bullet"
+end
+
 group :development, :test do
   gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ], require: "debug/prelude"
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
-  gem "rspec-rails"
 end
 
 group :test do
@@ -25,6 +29,5 @@ group :test do
   gem "shoulda-matchers"
   gem "factory_bot_rails"
   gem "faker"
+  gem "rspec-rails"
 end
-
-gem "dockerfile-rails", ">= 1.6", :group => :development

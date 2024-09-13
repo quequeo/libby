@@ -1,4 +1,4 @@
-class Api::V1::DashboardController < Api::BaseController
+class Api::V1::DashboardController < Api::ApplicationController
   def index
     if current_user.librarian?
       render json: current_user, serializer: LibrarianDashboardSerializer

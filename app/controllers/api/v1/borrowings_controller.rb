@@ -1,9 +1,10 @@
-class Api::V1::BorrowingsController < Api::BaseController
+class Api::V1::BorrowingsController < Api::ApplicationController
   load_and_authorize_resource
 
   def index
     @borrowings = current_user.librarian? ? Borrowing.all : current_user.borrowings
-    render json: @borrowings
+    @borrowings = @borrowings.order(created_at: :desc).paginate(params[:page], params[:per_page])
+    render json: { borrowings: borrowings_serializer, meta: pagination_meta(@borrowings) }
   end
 
   def show
@@ -30,5 +31,10 @@ class Api::V1::BorrowingsController < Api::BaseController
 
   def borrowing_params
     params.require(:borrowing).permit(:book_id, :returned, :user_id)
+  end
+
+
+  def borrowings_serializer
+    ActiveModelSerializers::SerializableResource.new(@borrowings, each_serializer: BorrowingSerializer)
   end
 end

@@ -59,6 +59,11 @@ Visit `http://localhost:5173` to see the application in action.
 
 ## 🧪 Testing
 
+First run the data base migrations for test environment
+```sh
+rails db:test:prepare
+```
+
 Run the test suite with:
 ```sh
 rspec

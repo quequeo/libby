@@ -15,18 +15,16 @@ class LibrarianDashboardSerializer < ActiveModel::Serializer
 
   def borrowed_books
     Borrowing.active
-      .joins(:user, :book)
-      .where.not("due_date < ?", Time.now.utc.to_date)
-      .order("due_date ASC")
-      .pluck("users.email", "books.title", "borrowings.id", "borrowings.due_date")
-      .map do |email, title, id, due_date|
-        {
-          user_email: email,
-          book_title: title,
-          borrowing_id: id,
-          due_date: due_date
-        }
-      end
+    .includes(:user, :book)
+    .order(due_date: :asc)
+    .map do |borrowing|
+      {
+        user_email: borrowing.user.email,
+        book_title: borrowing.book.title,
+        borrowing_id: borrowing.id,
+        due_date: borrowing.due_date
+      }
+    end
   end
 
   def books_due_today
@@ -35,16 +33,16 @@ class LibrarianDashboardSerializer < ActiveModel::Serializer
 
   def overdue_books
     Borrowing.active
-      .joins(:user, :book)
-      .where("due_date < ?", Time.now.utc.to_date)
-      .pluck("users.email", "books.title", "borrowings.id", "borrowings.due_date")
-      .map do |email, title, id, due_date|
-        {
-          user_email: email,
-          book_title: title,
-          borrowing_id: id,
-          due_date: due_date
-        }
-      end
+    .includes(:user, :book)
+    .where("due_date < ?", Time.now.utc.to_date)
+    .order(due_date: :asc)
+    .map do |overdue|
+      {
+        user_email: overdue.user.email,
+        book_title: overdue.book.title,
+        borrowing_id: overdue.id,
+        due_date: overdue.due_date
+      }
+    end
   end
 end

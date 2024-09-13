@@ -1,39 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { getDashboard } from '../../services/dashboard';
+import { returnBook } from '../../services/borrowings';
 import { Container, Typography, Box, CircularProgress, Card, Button } from '@mui/material';
 import { CardContent, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 function LibrarianDashboard() {
-  const [dashboardData, setDashboardData] = useState(null);
+  const [dashboardData, setDashboardData] = useState(null)
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
+  useEffect(() => { fetchDashboardData() }, [])
 
   const fetchDashboardData = async () => {
     try {
-      const data = await getDashboard();
-      console.log(data)
-      setDashboardData(data);
-    } catch (error) {
-      console.error('Failed to fetch dashboard data:', error);
-    }
+      const data = await getDashboard()
+      setDashboardData(data)
+    } catch (error) { console.error('Failed to fetch dashboard data:', error) }
   };
 
   const handleReturn = async (borrowingId) => {
     try {
-      await fetch(`/api/v1/borrowings/${borrowingId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ returned: true })
-      });
-      fetchDashboardData();
-    } catch (error) {
-      console.error('Failed to return book:', error);
-    }
+      await returnBook(borrowingId)
+      fetchDashboardData()
+    } catch (error) { console.error('Failed to return book:', error) }
   };
 
   if (!dashboardData) return (
@@ -53,6 +40,7 @@ function LibrarianDashboard() {
           <Box sx={{ mb: 4 }}>
             <Typography variant="h6" gutterBottom>Total Books: {dashboardData.total_books}</Typography>
             <Typography variant="h6" gutterBottom>Total Borrowed Books: {dashboardData.total_borrowed_books}</Typography>
+            <Typography variant="h6" gutterBottom>Total Overdue Books: {dashboardData.overdue_books.length}</Typography>
             <Typography variant="h6" gutterBottom>Books Due Today: {dashboardData.books_due_today}</Typography>
           </Box>
 
@@ -88,7 +76,7 @@ function LibrarianDashboard() {
                     ))
                   ) : (
                     <TableRow>
-                      <TableCell colSpan={3}>No overdue books.</TableCell>
+                      <TableCell colSpan={4}>No overdue books.</TableCell>
                     </TableRow>
                   )}
                 </TableBody>

@@ -10,7 +10,6 @@ import { useAuth } from '../../contexts/AuthContext';
 function BookList() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -58,32 +57,21 @@ function BookList() {
     }
   };
 
-  const handleEdit = (bookId) => {
-    navigate(`/edit-book/${bookId}`);
-  };
+  const handleEdit = (bookId) => { navigate(`/edit-book/${bookId}`)}
 
   const handleDelete = async (bookId) => {
     try {
       await deleteBook(bookId);
       setBooks(books.filter((book) => book.id !== bookId));
-    } catch (error) {
-      console.error('Failed to delete book:', error);
-    }
-  };
+    } catch (error) { console.error(error) }
+  }
 
   const handleBorrow = async (bookId) => {
     try {
       await createBorrowing(bookId, user.id);
       navigate('/dashboard');
-    } catch (error) {
-      console.error('Failed to borrow book:', error);
-      if (error.response && error.response.data && error.response.data.error) {
-        setError(error.response.data.error);
-      } else {
-        setError('Failed to borrow book. Please try again later.');
-      }
-    }
-  };
+    } catch (error) { console.error('Failed to borrow book:', error) }
+  }
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center" padding={2}>

@@ -3,7 +3,7 @@ class MemberDashboardSerializer < ActiveModel::Serializer
   attribute :overdue_books
 
   def borrowed_books
-    object.borrowings.active.map do |borrowing|
+    object.borrowings.active.includes(:book).map do |borrowing|
       {
         id: borrowing.id,
         book_title: borrowing.book.title,
@@ -16,7 +16,7 @@ class MemberDashboardSerializer < ActiveModel::Serializer
   end
 
   def overdue_books
-    object.borrowings.overdue.map do |borrowing|
+    object.borrowings.overdue.includes(:book).map do |borrowing|
       {
         id: borrowing.id,
         book_title: borrowing.book.title,

@@ -6,29 +6,25 @@ import { Container, Typography, TextField, Button, Box, Alert } from '@mui/mater
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { loginUser, error, isAuthenticated } = useAuth();
+  const { loginUser, isAuthenticated } = useAuth();
   const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      await loginUser({ email, password });
-      navigate('/dashboard');
+      await loginUser({ email, password })
+      navigate('/dashboard')
     } catch (error) {
-      console.error('Login failed:', error);
-      if (error.response && error.response.data.error) {
-        setErrorMessage(error.response.data.error);
-      }
+      console.error('Login failed:', error)
+      if (error.response && error.response.data.error) { setErrorMessage(error.response.data.error) }
     }
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/dashboard');
-    } 
-  }, [isAuthenticated, navigate]);
+    if (isAuthenticated) { navigate('/dashboard'); } 
+  }, [isAuthenticated, navigate])
 
 
   return (

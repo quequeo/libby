@@ -48,9 +48,7 @@ export function AuthProvider({ children }) {
       setUser(null);
       setIsAuth(false);
       localStorage.removeItem('user');
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
+    } catch (error) { console.error('Logout failed:', error) }
   };
 
   return (
@@ -66,6 +64,4 @@ export function AuthProvider({ children }) {
   );
 }
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
+export function useAuth() { return useContext(AuthContext) }

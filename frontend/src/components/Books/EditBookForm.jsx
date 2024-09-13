@@ -12,12 +12,8 @@ function EditBookForm() {
   const [genre, setGenre] = useState('');
   const [isbn, setIsbn] = useState('');
   const [totalCopies, setTotalCopies] = useState(1);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchBookDetails(id);
-  }, [id]);
+  useEffect(() => {fetchBookDetails(id)}, [id])
 
   const fetchBookDetails = async (bookId) => {
     try {
@@ -30,23 +26,16 @@ function EditBookForm() {
         setIsbn(data.isbn);
         setTotalCopies(data.total_copies);
       }
-    } catch (error) {
-      console.error('Failed to fetch book details:', error);
-    } finally {
-      setLoading(false);
-    }
+    } catch (error) {console.error('Failed to fetch book details:', error)}
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updateBook(id, { title, author, genre, isbn, total_copies: totalCopies });
+      await updateBook(id, {title, author, genre, isbn, total_copies: totalCopies});
       navigate('/books');
-    } catch (error) {
-      console.error('Failed to update book:', error);
-      setError('Failed to update book. Please try again later.');
-    }
-  };
+    } catch (error) {console.error('Failed to update book:', error)}
+  }
 
   return (
     <Container maxWidth="sm">
@@ -64,14 +53,7 @@ function EditBookForm() {
           backgroundColor: 'background.paper',
         }}
       >
-        {error && (
-          <Typography color="error" sx={{ mt: 2 }}>
-            {error}
-          </Typography>
-        )}
-        <Typography variant="h4" gutterBottom>
-          Edit Book
-        </Typography>
+        <Typography variant="h4" gutterBottom>Edit Book</Typography>
         <TextField
           label="Title"
           variant="outlined"

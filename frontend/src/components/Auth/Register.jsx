@@ -11,9 +11,7 @@ function Register() {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/dashboard');
-    }
+    if (isAuthenticated) { navigate('/dashboard'); }
   }, [isAuthenticated]);
 
   const handleSubmit = async (e) => {
