@@ -21,6 +21,15 @@ namespace :db do
       end
     end
 
+    desc "Create member user for testing"
+    task member: :environment do
+      puts "Creating member..."
+      User.create!(
+        email: 'member@libby.com',
+        password: 'password123',
+      )
+    end
+
     desc "Create librarian"
     task librarian: :environment do
       puts "Creating librarian..."
@@ -53,19 +62,23 @@ namespace :db do
         book = Book.all.sample
         due_date = Faker::Date.between(from: 2.days.ago, to: 30.days.from_now)
 
-        Borrowing.create!(
-          user: user,
-          book: book,
-          due_date: due_date,
-          returned: Faker::Boolean.boolean(true_ratio: 0.7)
-        )
+        begin
+          Borrowing.create!(
+            user: user,
+            book: book,
+            due_date: due_date,
+            returned: Faker::Boolean.boolean(true_ratio: 0.7)
+          )
+        rescue
+          next
+        end
       end
     end
 
     desc "Create overdue books"
     task overdue_books: :environment do
       puts "Creating overdue books..."
-      30.times do
+      20.times do
         user = User.all.sample
         book = Book.all.sample
 
@@ -85,7 +98,7 @@ namespace :db do
     end
 
     desc "Run all seeding tasks"
-    task all: [ :clean, :members, :librarian, :books, :borrowings ] do
+    task all: [ :clean, :members, :member, :librarian, :books, :borrowings ] do
       puts "All seeds created successfully!"
     end
   end
