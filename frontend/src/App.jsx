@@ -16,8 +16,8 @@ import NotFound from './components/StaticPages/NotFound';
 const theme = createTheme({ palette: { mode: 'dark' }, typography: { fontFamily: 'Roboto, sans-serif' }});
 
 function PrivateRoute({ children }) {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? children : <Navigate to="/" />;
+  const { isAuthenticated, user } = useAuth();
+  return isAuthenticated && user ? children : <Navigate to="/login" />;
 }
 
 function App() {

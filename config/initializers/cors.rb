@@ -1,17 +1,55 @@
-# Be sure to restart your server when you modify this file.
-
-# Avoid CORS issues when API is called from the frontend app.
-# Handle Cross-Origin Resource Sharing (CORS) in order to accept cross-origin Ajax requests.
-
-# Read more: https://github.com/cyu/rack-cors
-
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins "http://localhost:5173"
 
-    resource "*",
-      headers: :any,
-      methods: [ :get, :post, :put, :patch, :delete, :options, :head ],
-      credentials: true
+    # Users
+    resource '/api/v1/users',
+    headers: :any, 
+    methods: [:post],
+    credentials: true
+
+    # Auth
+    resource '/api/v1/login',
+    headers: :any,
+    methods: [:post],
+    credentials: true
+
+    resource '/api/v1/logout',
+    headers: :any,
+    methods: [:delete],
+    credentials: true
+
+    # Books
+    resource '/api/v1/books',
+    headers: :any,
+    methods: [:get, :post],
+    credentials: true
+
+    resource '/api/v1/books/*',
+    headers: :any,
+    methods: [:get, :put, :patch, :delete],
+    credentials: true
+
+    resource '/api/v1/books/search',
+    headers: :any,
+    methods: [:get],
+    credentials: true
+
+    # Borrowings
+    resource '/api/v1/borrowings',
+    headers: :any,
+    methods: [:get, :post],
+    credentials: true
+
+    resource '/api/v1/borrowings/*',
+    headers: :any,
+    methods: [:get, :put, :patch],
+    credentials: true
+
+    # Dashboard
+    resource '/api/v1/dashboard',
+    headers: :any,
+    methods: [:get],
+    credentials: true
   end
 end
